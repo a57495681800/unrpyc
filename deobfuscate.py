@@ -286,7 +286,7 @@ def read_ast(f):
         try:
             data = extractor(f, 1)
         except ValueError as e:
-            diagnosis.append("strategy %s failed: %s" % (extractor.__name__, e.message))
+            diagnosis.append("strategy %s failed: %s" % (extractor.__name__, e))
         else:
             diagnosis.append("strategy %s success" % extractor.__name__)
             raw_datas.add(data)
@@ -303,7 +303,7 @@ def read_ast(f):
         try:
             data, stmts, d = try_decrypt_section(raw_data)
         except ValueError as e:
-            diagnosis.append(e.message)
+            diagnosis.append(e)
         else:
             diagnosis.extend(d)
             with unrpyc.printlock:

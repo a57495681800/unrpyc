@@ -590,7 +590,7 @@ def safe_load(file, class_factory=None, safe_modules=(), use_copyreg=False,
                          encoding=encoding, errors=errors).load()
 
 def safe_loads(string, class_factory=None, safe_modules=(), use_copyreg=False,
-               encoding="bytes", errors="errors"):
+               encoding="utf-8", errors="errors"):
     """
     Similar to :func:`safe_load`, but takes an 8-bit string (bytes in Python 3, str in Python 2)
     as its first argument instead of a binary :term:`file object`.

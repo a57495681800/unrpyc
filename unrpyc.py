@@ -22,12 +22,12 @@
 
 import argparse
 from os import path, walk
-import codecs
 import glob
 import itertools
 import traceback
 import struct
 from operator import itemgetter
+import zlib
 
 try:
     from multiprocessing import Pool, Lock, cpu_count
@@ -51,20 +51,17 @@ from decompiler import magic, astdump, translate
 
 # special definitions for special classes
 
-class PyExpr(magic.FakeStrict, unicode):
+class PyExpr(magic.FakeStrict, str):
     __module__ = "renpy.ast"
     def __new__(cls, s, filename, linenumber, py=None):
-        self = unicode.__new__(cls, s)
+        self = str.__new__(cls, s)
         self.filename = filename
         self.linenumber = linenumber
         self.py = py
         return self
 
     def __getnewargs__(self):
-        if self.py is not None:
-            return unicode(self), self.filename, self.linenumber, self.py
-        else:
-            return unicode(self), self.filename, self.linenumber
+        return self, self.filename, self.linenumber
 
 class PyCode(magic.FakeStrict):
     __module__ = "renpy.ast"
@@ -116,7 +113,7 @@ import deobfuscate
 def read_ast_from_file(in_file):
     # .rpyc files are just zlib compressed pickles of a tuple of some data and the actual AST of the file
     raw_contents = in_file.read()
-    if raw_contents.startswith("RENPY RPC2"):
+    if raw_contents.startswith(b"RENPY RPC2"):
         # parse the archive structure
         position = 10
         chunks = {}
@@ -130,7 +127,7 @@ def read_ast_from_file(in_file):
 
         raw_contents = chunks[1]
 
-    raw_contents = raw_contents.decode('zlib')
+    raw_contents = zlib.decompress(raw_contents)
     # import pickletools
     # with open("huh.txt", "wb") as f:
     #     pickletools.dis(raw_contents, out=f)
@@ -164,7 +161,7 @@ def decompile_rpyc(input_filename, overwrite=False, dump=False, decompile_python
         else:
             ast = read_ast_from_file(in_file)
 
-    with codecs.open(out_filename, 'w', encoding='utf-8') as out_file:
+    with open(out_filename, 'w', encoding='utf-8') as out_file:
         if dump:
             astdump.pprint(out_file, ast, decompile_python=decompile_python, comparable=comparable,
                                           no_pyexpr=no_pyexpr)
@@ -301,7 +298,7 @@ def main():
         print("No script files to decompile.")
         return
 
-    files = map(lambda x: (args, x, path.getsize(x)), files)
+    files = list(map(lambda x: (args, x, path.getsize(x)), files))
     processes = int(args.processes)
     if processes > 1:
         # If a big file starts near the end, there could be a long time with

@@ -1,7 +1,6 @@
-from __future__ import unicode_literals
 import sys
 import re
-from StringIO import StringIO
+from io import StringIO
 from contextlib import contextmanager
 
 class DecompilerBase(object):
@@ -41,7 +40,6 @@ class DecompilerBase(object):
         """
         Shorthand method for writing `string` to the file
         """
-        string = unicode(string)
         self.linenumber += string.count('\n')
         self.skip_indent_until_write = False
         self.out_file.write(string)
@@ -439,12 +437,12 @@ class WordConcatenator(object):
         if not self.words:
             return ''
         if self.reorderable and self.words[-1][-1] == ' ':
-            for i in xrange(len(self.words) - 1, -1, -1):
+            for i in range(len(self.words) - 1, -1, -1):
                 if self.words[i][-1] != ' ':
                     self.words.append(self.words.pop(i))
                     break
         last_word = self.words[-1]
-        self.words = map(lambda x: x[:-1] if x[-1] == ' ' else x, self.words[:-1])
+        self.words = list(map(lambda x: x[:-1] if x[-1] == ' ' else x, self.words[:-1]))
         self.words.append(last_word)
         rv = (' ' if self.needs_space else '') + ' '.join(self.words)
         self.needs_space = rv[-1] != ' '

@@ -18,12 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from __future__ import unicode_literals
-import sys
 from operator import itemgetter
 
-from util import DecompilerBase, First, reconstruct_paraminfo, \
-                 reconstruct_arginfo, split_logical_lines, Dispatcher
+from .util import DecompilerBase, First, reconstruct_paraminfo, \
+    reconstruct_arginfo, split_logical_lines, Dispatcher
 
 from renpy import ui, sl2
 from renpy.ast import PyExpr
@@ -336,6 +334,8 @@ class SL2Decompiler(DecompilerBase):
 
         keywords_by_line.append(current_line)
         last_keyword_line = keywords_by_line[-1][0]
+        if last_keyword_line is None:
+            last_keyword_line = 0
         children_with_keywords = []
         children_after_keywords = []
         for i in children:
