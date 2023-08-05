@@ -7,7 +7,7 @@ def readme():
 
 setup(
     name='unrpyc',
-    version='0.11',
+    version='1.1.8.1',
     description='Tool to decompile Ren\'Py compiled .rpyc script files.',
     long_description=readme(),
     url='https://github.com/a57495681800/unrpyc',
