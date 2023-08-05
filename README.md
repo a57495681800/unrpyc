@@ -1,34 +1,38 @@
-# Unrpyc, the Ren'py script decompiler.
+# Unrpyc，Ren'py 脚本反编译器。
 
-Unrpyc is a tool to decompile Ren'Py (http://www.renpy.org/) compiled .rpyc
-script files. It will not extract files from .rpa archives. For that, use
-[rpatool](https://github.com/Shizmob/rpatool) or
-[UnRPA](https://github.com/Lattyware/unrpa).
+[原作者](https://github.com/CensoredUsername/unrpyc)
 
-
-## Status
-
-master:[![Build Status](https://github.com/CensoredUsername/unrpyc/actions/workflows/python-app.yaml/badge.svg?branch=master)](https://github.com/CensoredUsername/unrpyc/actions/workflows/python-app.yaml)
-
-dev:[![Build Status](https://github.com/CensoredUsername/unrpyc/actions/workflows/python-app.yaml/badge.svg?branch=dev)](https://github.com/CensoredUsername/unrpyc/actions/workflows/python-app.yaml)
+unrpyc是一个可以将.rpyc反编译成.rpy的工具
 
 ## Usage
 
-This tool can either be ran as a command line tool, as a library, or injected into the game itself. It requires Python 2.7 to be installed to be used as a command line tool.
+~~This tool can either be ran as a command line tool, as a library, or injected into the game itself. It requires Python 2.7 to be installed to be used as a command line tool.~~
+
+### Install
+
+例如
+pip install unrpyc-0.11.tar.gz
+
+或
+python setup.py install
 
 ### Command line tool usage
 
 Depending on your system setup, you should use one of the following commands to run the tool:
 ```
 python unrpyc.py [options] script1 script2 ...
-python2 unrpyc.py [options] script1 script2 ...
-py -2 unrpyc.py [options] script1 script2 ...
+python3 unrpyc.py [options] script1 script2 ...
+py -3 unrpyc.py [options] script1 script2 ...
 ./unrpyc.py [options] script1 script2 ...
+```
+安装后可以直接使用
+```
+unrpyc.py [options] script1 script2 ...
 ```
 
 Options:
 ```
-$ py -2 unrpyc.py --help
+$ py -3 unrpyc.py --help
 usage: unrpyc.py [-h] [-c] [-d] [-p {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}]
                  [-t TRANSLATION_FILE] [-T WRITE_TRANSLATION_FILE]
                  [-l LANGUAGE] [--sl1-as-python] [--comparable] [--no-pyexpr]
@@ -178,4 +182,4 @@ supported right now. If you make a pull request with it we'll happily put it in 
 or a game-specific branch depending on how many games it affects, but we have little
 motivation ourselves to put time in this arms race.
 
-https://github.com/CensoredUsername/unrpyc
+https://github.com/a57495681800/unrpyc
