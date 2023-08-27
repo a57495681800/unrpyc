@@ -3,6 +3,7 @@
 [原作者](https://github.com/CensoredUsername/unrpyc)
 
 unrpyc是一个可以将.rpyc反编译成.rpy的工具
+支持带空格的路径/文件名（需要使用引号）
 
 ## Usage
 
